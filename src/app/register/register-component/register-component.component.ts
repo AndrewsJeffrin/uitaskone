@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-register-component',
@@ -10,7 +12,8 @@ export class RegisterComponentComponent implements OnInit {
 
   public registerUser!: FormGroup;
   public addresslist!: FormArray;
-  constructor(private fb: FormBuilder) {
+  public name!:any;
+  constructor(private fb: FormBuilder,private router: Router) {
 
   }
 
@@ -20,7 +23,7 @@ export class RegisterComponentComponent implements OnInit {
       email: ['', [Validators.email]],
       password: [''],
       mobilenumber: [''],
-      mobile: ['', [Validators.required]],
+      mobile: ['', [Validators.required],[Validators.maxLength(10)]],
       addresslist: this.fb.array([this.getAddress(0)]),
       country: [''],
       state: [''],
@@ -33,7 +36,9 @@ export class RegisterComponentComponent implements OnInit {
     })
   }
   onSubmit() {
-    console.log(this.registerUser.value)
+    localStorage.setItem('users:any','this.registerUser.value:any');
+    this.name=  localStorage.getItem('users');
+    console.log(this.name)
   }
   getControls() {
     return (this.registerUser.get('addresslist') as FormArray).controls;
@@ -41,5 +46,11 @@ export class RegisterComponentComponent implements OnInit {
   addAddress(index: number) {
     this.addresslist = this.registerUser.get('addresslist') as FormArray;
     this.addresslist.push(this.getAddress(index));
+  }
+  onDelete(index: number):void{
+    this.addresslist.removeAt(index)
+  }
+  loginForm(){
+    this.router.navigate(['']);
   }
 }
