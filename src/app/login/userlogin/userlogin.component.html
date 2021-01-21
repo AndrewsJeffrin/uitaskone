@@ -2,22 +2,22 @@
     <div class="body">
         <div style="margin-left: 100px;" class="login-container-wrapper" fxLayout="row" fxLayout.xs="column"
             fxLayout.sm="column" fxLayout.md="column">
-            <form >
+            <form [formGroup]="userLogin" >
 
                 <h2><b>Login Form</b></h2>
 
                
                 <mat-form-field appearance="fill">
                     <mat-label>Email</mat-label>
-                    <input matInput type="email"  required>
+                    <input matInput type="email" formControlName="useremail"  required>
                 </mat-form-field><br>
 
                 <mat-form-field appearance="fill">
                     <mat-label>Password</mat-label>
-                    <input matInput type="password"  required>
+                    <input matInput type="password" formControlName="userpassword" required>
                 </mat-form-field><br>
 
-                <button  mat-raised-button color="accent" (click)="login()">Login</button>&nbsp;
+                <button type="submit" mat-raised-button color="accent" (click)="loginCheck()">Login</button>&nbsp;
                 <button  mat-raised-button color="accent" (click)="registerlogin()">sign up?</button>&nbsp;
 
             </form>

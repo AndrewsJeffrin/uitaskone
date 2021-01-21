@@ -22,7 +22,7 @@
                         pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                 </mat-form-field><br>
 
-                <mat-form-field appearance="fill" id="code" >
+                <mat-form-field appearance="fill" id="code">
                     <mat-label>Area Code</mat-label>
                     <select matNativeControl formControlName="mobilenumber" required>
                         <option value="+91">+91</option>
@@ -36,47 +36,53 @@
                     <mat-label>Phone Number</mat-label>
                     <input matInput type="text" maxlength="10" formControlName="mobile" required>
                 </mat-form-field><br>
-                
-                <fieldset >
+                <!--getControls()-->
+                <fieldset>
                     <legend>address</legend>
-                <div fromArrayName="addresslist">
-                    <div *ngFor="let address of getControls(); let i=index" [formGroupName]="i">
-                        <mat-form-field appearance="fill" >
-                            <mat-label>Address line {{i+1}}</mat-label>
-                            <textarea matInput placeholder="address line" rows="2">&nbsp;
+                    <div fromArrayName="addresslist">
+                        <div *ngFor="let address of getControls() ; let i=index" [formGroupName]="i">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address line 1</mat-label>
+                                <textarea matInput placeholder="address line" rows="2" formControlName="addresslineone">&nbsp;
                              </textarea>
-                        </mat-form-field>&nbsp;
-                        
-                        <button mat-raised-button color="accent" (click)="addAddress(i+1)">
-                            <mat-icon>plus_one</mat-icon>
-                        </button>&nbsp;&nbsp;
-                        <span *ngIf ="i>=1"  >
-                        <button mat-raised-button color="accent" (click)="onDelete(i)"><i class="material-icons">delete</i></button>
-                        </span>
+                            </mat-form-field>&nbsp;
+                            
+                            <mat-form-field appearance="fill">
+                                <mat-label>Address line 2</mat-label>
+                                <textarea matInput placeholder="address line" rows="2"formControlName="addresslinetwo">&nbsp;
+                             </textarea>
+                            </mat-form-field>&nbsp;
+
+                            <button mat-raised-button color="primary" (click)="addAddress(i+1)"><i class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;
+                            <span *ngIf="i>=1">
+                                <button mat-raised-button color="warn" (click)="onDelete(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
+                            </span><br>
+                            <mat-form-field appearance="fill">
+                                <mat-label>country</mat-label>
+                                <select matNativeControl formControlName="country" required>
+                                    <option value="india">India</option>
+                                    <option value="USA">USA</option>
+                                    <option value="UK">UK</option>
+                                </select>
+                            </mat-form-field>&nbsp;
+            
+                            <mat-form-field appearance="fill">
+                                <mat-label>State</mat-label>
+                                <input matInput formControlName="state" required>
+                            </mat-form-field>&nbsp;
+            
+                            <mat-form-field appearance="fill">
+                                <mat-label>District</mat-label>
+                                <input matInput formControlName="district" required>
+                            </mat-form-field><br>
+
+                        </div>
                     </div>
-                </div>
-                
-            </fieldset><br>
-                <mat-form-field appearance="fill">
-                    <mat-label>country</mat-label>
-                    <select matNativeControl formControlName="country" required>
-                        <option value="india">India</option>
-                        <option value="USA">USA</option>
-                        <option value="UK">UK</option>
-                    </select>
-                </mat-form-field>&nbsp;
 
-                <mat-form-field appearance="fill">
-                    <mat-label>State</mat-label>
-                    <input matInput formControlName="state" required>
-                </mat-form-field>&nbsp;
+                </fieldset><br>
+               
 
-                <mat-form-field appearance="fill">
-                    <mat-label>District</mat-label>
-                    <input matInput formControlName="district" required>
-                </mat-form-field><br>
-
-                <button type="submit" mat-raised-button color="accent"> Register</button>&nbsp;
+                <button type="submit" mat-raised-button color="accent" (click)="onSubmit()"> Register</button>&nbsp;
                 <button mat-raised-button color="accent" (click)="loginForm()"> Login Here</button>&nbsp;
 
             </form>

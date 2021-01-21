@@ -23,28 +23,29 @@ export class RegisterComponentComponent implements OnInit {
       email: ['', [Validators.email]],
       password: [''],
       mobilenumber: [''],
-      mobile: ['', [Validators.required],[Validators.maxLength(10)]],
-      addresslist: this.fb.array([this.getAddress(0)]),
+      mobile: [''],
+      addresslist: this.fb.array([this.getAddress(0)])
+      
+    })
+  }
+  getAddress(i: number): FormGroup {
+    return this.fb.group({
+      addresslineone: [''],
+      addresslinetwo:[''],
       country: [''],
       state: [''],
       district: ['']
     })
   }
-  getAddress(i: number): FormGroup {
-    return this.fb.group({
-      address: ['']
-    })
-  }
   onSubmit() {
-    localStorage.setItem('users:any','this.registerUser.value:any');
-    this.name=  localStorage.getItem('users');
-    console.log(this.name)
+    localStorage.setItem('email',this.registerUser.controls.email.value);
+    localStorage.setItem('password',this.registerUser.controls.password.value);
   }
   getControls() {
     return (this.registerUser.get('addresslist') as FormArray).controls;
   }
   addAddress(index: number) {
-    this.addresslist = this.registerUser.get('addresslist') as FormArray;
+    this.addresslist = this.registerUser.get('addresslist')as FormArray;
     this.addresslist.push(this.getAddress(index));
   }
   onDelete(index: number):void{
@@ -53,4 +54,5 @@ export class RegisterComponentComponent implements OnInit {
   loginForm(){
     this.router.navigate(['']);
   }
+  
 }
