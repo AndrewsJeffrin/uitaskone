@@ -8,8 +8,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UserloginComponent } from './userlogin/userlogin.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTableModule} from '@angular/material/table';
 @NgModule({
-  declarations: [UserloginComponent],
+  declarations: [UserloginComponent, DashboardComponent],
   imports: [
     CommonModule,
     MatFormFieldModule,
@@ -17,10 +20,14 @@ import { UserloginComponent } from './userlogin/userlogin.component';
     MatFormFieldModule,
     MatButtonModule,
     ReactiveFormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatPaginatorModule,
+    MatTableModule
   ],
   exports: [
-    UserloginComponent
+    UserloginComponent,
+    DashboardComponent
+
   ]
 })
 export class LoginModule { }

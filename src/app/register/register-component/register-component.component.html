@@ -1,91 +1,122 @@
-<div class="formborder">
-    <div class="body">
-        <div style="margin-left: 100px;" class="login-container-wrapper" fxLayout="row" fxLayout.xs="column"
-            fxLayout.sm="column" fxLayout.md="column">
-            <form [formGroup]="registerUser" (ngSubmit)="onSubmit()">
+<div class="body">
+    <div style="margin-left: 100px;" class="login-container-wrapper" fxLayout="row" fxLayout.xs="column"
+        fxLayout.sm="column" fxLayout.md="column">
+        <form [formGroup]="registerUser" (ngSubmit)="onSubmit()">
 
-                <h2><b>REGISTER HERE</b></h2>
+            <h2><b>REGISTER HERE</b></h2>
 
-                <mat-form-field appearance="fill">
-                    <mat-label>Name</mat-label>
-                    <input matInput type="text" formControlName="firstname" maxlength="25">
-                </mat-form-field>&nbsp;
-
-                <mat-form-field appearance="fill">
-                    <mat-label>Email</mat-label>
-                    <input matInput type="email" formControlName="email" required>
-                </mat-form-field>&nbsp;<br>
-
-                <mat-form-field appearance="fill">
-                    <mat-label>Password</mat-label>
-                    <input matInput type="password" formControlName="password"
-                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                </mat-form-field><br>
-
-                <mat-form-field appearance="fill" id="code">
-                    <mat-label>Area Code</mat-label>
-                    <select matNativeControl formControlName="mobilenumber" required>
-                        <option value="+91">+91</option>
-                        <option value="+263">+263</option>
-                        <option value="+123">+123</option>
-                        <option value="+876">+876</option>
-                    </select>
-                </mat-form-field>&nbsp;
-
-                <mat-form-field appearance="fill">
-                    <mat-label>Phone Number</mat-label>
-                    <input matInput type="text" maxlength="10" formControlName="mobile" required>
-                </mat-form-field><br>
-                <!--getControls()-->
-                <fieldset>
-                    <legend>address</legend>
-                    <div fromArrayName="addresslist">
-                        <div *ngFor="let address of getControls() ; let i=index" [formGroupName]="i">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Address line 1</mat-label>
-                                <textarea matInput placeholder="address line" rows="2" formControlName="addresslineone">&nbsp;
-                             </textarea>
-                            </mat-form-field>&nbsp;
-                            
-                            <mat-form-field appearance="fill">
-                                <mat-label>Address line 2</mat-label>
-                                <textarea matInput placeholder="address line" rows="2"formControlName="addresslinetwo">&nbsp;
-                             </textarea>
-                            </mat-form-field>&nbsp;
-
-                            <button mat-raised-button color="primary" (click)="addAddress(i+1)"><i class="fa fa-plus" aria-hidden="true"></i></button>&nbsp;
-                            <span *ngIf="i>=1">
-                                <button mat-raised-button color="warn" (click)="onDelete(i)"><i class="fa fa-minus" aria-hidden="true"></i></button>
-                            </span><br>
-                            <mat-form-field appearance="fill">
-                                <mat-label>country</mat-label>
-                                <select matNativeControl formControlName="country" required>
-                                    <option value="india">India</option>
-                                    <option value="USA">USA</option>
-                                    <option value="UK">UK</option>
-                                </select>
-                            </mat-form-field>&nbsp;
-            
-                            <mat-form-field appearance="fill">
-                                <mat-label>State</mat-label>
-                                <input matInput formControlName="state" required>
-                            </mat-form-field>&nbsp;
-            
-                            <mat-form-field appearance="fill">
-                                <mat-label>District</mat-label>
-                                <input matInput formControlName="district" required>
-                            </mat-form-field><br>
-
-                        </div>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput type="text" formControlName="firstname" maxlength="25" required>
+                <div *ngIf="registerUser.controls['firstname'].invalid && (registerUser.controls['firstname'].dirty || registerUser.controls['firstname'].touched)"
+                    class="alert">
+                    <div *ngIf="registerUser.controls['firstname'].errors?.required">
+                        Please enter username
                     </div>
+                </div>
+            </mat-form-field>&nbsp;
 
-                </fieldset><br>
-               
+           <mat-form-field appearance="fill">
+                <mat-label>Enter your email</mat-label>
+                <input matInput placeholder="and@gmail.com" [formControl]="emailid"    required>
+                <mat-error *ngIf="emailid.invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field> 
 
-                <button type="submit" mat-raised-button color="accent" (click)="onSubmit()"> Register</button>&nbsp;
-                <button mat-raised-button color="accent" (click)="loginForm()"> Login Here</button>&nbsp;
+            <!-- <mat-form-field appearance="fill">
+                <mat-label>Enter your email</mat-label>
+                <input matInput placeholder="and@gmail.com" formControlName="emailid"    required>
+                <mat-error *ngIf="hasError(emailid, 'required')"></mat-error>
+            </mat-form-field> -->
 
-            </form>
-        </div>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    required>
+                <div *ngIf="registerUser.controls['password'].invalid && (registerUser.controls['password'].dirty || registerUser.controls['password'].touched)"
+                    class="alert">
+                    <div *ngIf="registerUser.controls['password'].errors?.required">
+                        Please provide valid password
+                    </div>
+                </div>
+            </mat-form-field><br>
+
+            <mat-form-field appearance="fill" id="code">
+                <mat-label>Area Code</mat-label>
+                <mat-select formControlName="mobilenumber" required>
+                    <mat-option value="+91">+91</mat-option>
+                    <mat-option value="+263">+263</mat-option>
+                    <mat-option value="+123">+123</mat-option>
+                    <mat-option value="+876">+876</mat-option>
+                </mat-select>
+
+            </mat-form-field>&nbsp;
+
+
+            <!-- ('^((\\+91-?)|0)?[0-9]{10}$') -->
+            <mat-form-field appearance="fill">
+                <mat-label>Phone Number</mat-label>
+                <input matInput type="text" maxlength="10" formControlName="mobile"  required>
+                <div *ngIf="registerUser.controls['mobile'].invalid && (registerUser.controls['mobile'].dirty || registerUser.controls['mobile'].touched)"
+                    class="alert">
+                    <div *ngIf="registerUser.controls['mobile'].errors?.required">
+                        Please provide mobile number
+                    </div>
+                </div>
+            </mat-form-field><br>
+            <!--getControls()
+                let eachOptions of myFormGroup.get('options')['controls'];-->
+            <!-- <fieldset>
+                    <legend>address</legend> -->
+                
+            <mat-slide-toggle formControlName="registerUser.get('addresslist')" > Slide me!</mat-slide-toggle>
+            
+            <div formArrayName="addresslist" *ngIf="registerUser.get('addresslist')">
+             
+                <div *ngFor="let address of addressGroups.controls; let i=index" [formGroupName]="i">
+                   
+                    <mat-form-field appearance="fill">
+                        <mat-label>Address line 1</mat-label>
+                        <textarea matInput placeholder="address line" rows="2" formControlName="addresslineone">&nbsp;
+                             </textarea>
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Address line 2</mat-label>
+                        <textarea matInput placeholder="address line" rows="2" formControlName="addresslinetwo">&nbsp;
+                             </textarea>
+                    </mat-form-field>&nbsp;
+
+                    <button mat-raised-button color="primary" (click)="addAddress(i)"><i class="fa fa-plus"
+                            aria-hidden="true"></i></button>&nbsp;
+                    <span *ngIf="i>=1">
+                        <button mat-raised-button color="warn" (click)="onDelete(i)"><i class="fa fa-minus"
+                                aria-hidden="true"></i></button>
+                    </span><br>
+                    <mat-form-field appearance="fill">
+                        <mat-label>country</mat-label>
+                        <mat-select formControlName="country" required>
+                            <mat-option value="INDIA">INDIA</mat-option>
+                            <mat-option value="USA">USA</mat-option>
+                            <mat-option value="UK">UK</mat-option>
+                        </mat-select>
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>State</mat-label>
+                        <input matInput formControlName="state" required>
+                    </mat-form-field>&nbsp;
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>District</mat-label>
+                        <input matInput formControlName="district" required>
+                    </mat-form-field><br>
+
+                </div>
+            </div>
+            <!-- </fieldset><br> -->
+            <button type="submit" mat-raised-button color="accent" (click)="onSubmit()"> Register</button>&nbsp;
+            <button mat-raised-button color="accent" (click)=" loginForm()"> Login Here</button>&nbsp;
+
+        </form>
     </div>
 </div>

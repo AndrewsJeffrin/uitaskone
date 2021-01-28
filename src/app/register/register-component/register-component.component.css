@@ -26,3 +26,16 @@ h2{
 #code{
     width:70px;
 }
+.alert{
+    border: red;
+    color: red;
+}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }

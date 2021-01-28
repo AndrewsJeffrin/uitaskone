@@ -8,7 +8,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import {MatSelectModule} from '@angular/material/select';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [RegisterComponentComponent],
   imports: [
@@ -19,7 +20,9 @@ import { RouterModule } from '@angular/router';
     MatGridListModule,
     ReactiveFormsModule,
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule,
+    MatSlideToggleModule
     
   ],
   exports: [
