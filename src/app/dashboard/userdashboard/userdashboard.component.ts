@@ -1,51 +1,41 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import {MatPaginator} from '@angular/material/paginator';
-import { FormArray } from '@angular/forms';
-import { variable } from '@angular/compiler/src/output/output_ast';
-
-
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-userdashboard',
   templateUrl: './userdashboard.component.html',
   styleUrls: ['./userdashboard.component.css']
 })
-export class UserdashboardComponent implements AfterViewInit {
-  
-  //public paginator!: MatPaginator;
-  //value: string[]=[];
-  //objarray: MyObjClass[] = [];
-  displayedColumns: string[]=['Name','Email','AddresslineOne','AddresslineTwo','country','state','district']
+export class UserdashboardComponent implements OnInit {
 
-  dataSource=new MatTableDataSource<userDetails>();
-  
-   constructor() { 
-  
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+  value:number=1;
+
+  // changeTheme(): any{
+  //   if(this.value===4){
+  //     this.value=4;
+  //   }else if(this.value===2){
+  //     this.value=2
+  //   }else if(this.value===3){
+  //     this.value=3
+  //   }else{
+  //     this.value===this.value
+  //   }
+
+  // }
+  themeOne(){
+    this.value=1
+  }
+  themeTwo(){
+    this.value=2
+  }
+  themeThree(){
+    this.value=3
+  }
+  themeFour(){
+    this.value=4
   }
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  retriveddata!:any;
- // pieces: Piece[] = [];
-  ngAfterViewInit() {
-    this.dataSource.paginator=this.paginator,
-    //console.log(localStorage.getItem('userdetails'));
-     this.retriveddata=JSON.parse(localStorage.getItem('userdetails')|| '[]');
-     
-    console.log(this.retriveddata);
-    this.dataSource=this.retriveddata as any;
-  }
-  
 }
-export interface userDetails {
-  Name: string;
-  Email:string;
-  AddresslineOne:string;
-  AddresslineTwo:string;
-  country:string;
-  state:string;
-  district:string;
-}
-// const ELEMENT_DATA: userDetails[] = [
-//   {Name:'andrews',Email:"ssssssss",AddresslineOne:'main raoad palamedu',AddresslineTwo:'madurai',country:'indai',state:'tamil nadu',district:'madurai'}, 
-// ];

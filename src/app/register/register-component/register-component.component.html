@@ -1,4 +1,11 @@
-<div class="body">
+<div>
+    <button mat-raised-button color="primary" (click)="themeOne()">orange</button>&nbsp;
+    <button mat-raised-button color="primary" (click)="themeTwo()"> yellow</button>&nbsp;
+    <button mat-raised-button color="primary" (click)="themeThree()"> grey</button>&nbsp;
+    <button mat-raised-button color="primary" (click)="themeFour()"> green</button>&nbsp;
+</div>
+
+<div class="body" [class.alternative1]="value===1" [class.alternative2]="value===2" [class.alternative3]="value===3">
     <div style="margin-left: 100px;" class="login-container-wrapper" fxLayout="row" fxLayout.xs="column"
         fxLayout.sm="column" fxLayout.md="column">
         <form [formGroup]="registerUser" (ngSubmit)="onSubmit()">
@@ -7,37 +14,23 @@
 
             <mat-form-field>
                 <mat-label>Name</mat-label>
-                <input matInput type="text" formControlName="firstname" maxlength="25" required>
-                <div *ngIf="registerUser.controls['firstname'].invalid && (registerUser.controls['firstname'].dirty || registerUser.controls['firstname'].touched)"
-                    class="alert">
-                    <div *ngIf="registerUser.controls['firstname'].errors?.required">
-                        Please enter username
-                    </div>
-                </div>
+                <input matInput type="text" formControlName="firstname">
+                <mat-error *ngIf="registerUser.controls['firstname'].hasError('required')">enter name</mat-error>
             </mat-form-field>&nbsp;
 
-           <mat-form-field appearance="fill">
+            <mat-form-field appearance="fill">
                 <mat-label>Enter your email</mat-label>
-                <input matInput placeholder="and@gmail.com" [formControl]="emailid"    required>
-                <mat-error *ngIf="emailid.invalid">{{getErrorMessage()}}</mat-error>
-            </mat-form-field> 
-
-            <!-- <mat-form-field appearance="fill">
-                <mat-label>Enter your email</mat-label>
-                <input matInput placeholder="and@gmail.com" formControlName="emailid"    required>
-                <mat-error *ngIf="hasError(emailid, 'required')"></mat-error>
-            </mat-form-field> -->
+                <input matInput placeholder="and@gmail.com" formControlName="emailid" required>
+                <mat-error *ngIf="registerUser.controls['emailid'].hasError('required')">enter email id</mat-error>
+                <mat-error *ngIf="registerUser.controls['emailid'].hasError('email')">Invalid email id</mat-error>
+            </mat-form-field>
 
             <mat-form-field appearance="fill">
                 <mat-label>Password</mat-label>
-                <input matInput type="password" formControlName="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    required>
-                <div *ngIf="registerUser.controls['password'].invalid && (registerUser.controls['password'].dirty || registerUser.controls['password'].touched)"
-                    class="alert">
-                    <div *ngIf="registerUser.controls['password'].errors?.required">
-                        Please provide valid password
-                    </div>
-                </div>
+                <input matInput type="password" formControlName="password">
+                <mat-error *ngIf="registerUser.controls['password'].hasError('required')">enter password</mat-error>
+                <mat-error *ngIf="registerUser.controls['password'].hasError('pattern')">your password is week
+                </mat-error>
             </mat-form-field><br>
 
             <mat-form-field appearance="fill" id="code">
@@ -47,43 +40,34 @@
                     <mat-option value="+263">+263</mat-option>
                     <mat-option value="+123">+123</mat-option>
                     <mat-option value="+876">+876</mat-option>
+                    <mat-error *ngIf="registerUser.controls['mobilenumber'].hasError('required')">select area code
+                    </mat-error>
                 </mat-select>
-
             </mat-form-field>&nbsp;
 
-
-            <!-- ('^((\\+91-?)|0)?[0-9]{10}$') -->
             <mat-form-field appearance="fill">
                 <mat-label>Phone Number</mat-label>
-                <input matInput type="text" maxlength="10" formControlName="mobile"  required>
-                <div *ngIf="registerUser.controls['mobile'].invalid && (registerUser.controls['mobile'].dirty || registerUser.controls['mobile'].touched)"
-                    class="alert">
-                    <div *ngIf="registerUser.controls['mobile'].errors?.required">
-                        Please provide mobile number
-                    </div>
-                </div>
+                <input matInput type="text" maxlength="10" formControlName="mobile" required>
+                <mat-error *ngIf="registerUser.controls['mobile'].hasError('required')">enter mobile number</mat-error>
+                <mat-error *ngIf="registerUser.controls['mobile'].hasError('pattern')">numbers only allowed</mat-error>
             </mat-form-field><br>
-            <!--getControls()
-                let eachOptions of myFormGroup.get('options')['controls'];-->
-            <!-- <fieldset>
-                    <legend>address</legend> -->
-                
-            <mat-slide-toggle formControlName="registerUser.get('addresslist')" > Slide me!</mat-slide-toggle>
-            
+
+            <!-- <mat-slide-toggle [formControl]="toggleValue" (change)="onChange()"> Slide me!</mat-slide-toggle> -->
+
             <div formArrayName="addresslist" *ngIf="registerUser.get('addresslist')">
-             
+
                 <div *ngFor="let address of addressGroups.controls; let i=index" [formGroupName]="i">
-                   
+                    
                     <mat-form-field appearance="fill">
                         <mat-label>Address line 1</mat-label>
                         <textarea matInput placeholder="address line" rows="2" formControlName="addresslineone">&nbsp;
-                             </textarea>
+                        </textarea>
                     </mat-form-field>&nbsp;
 
                     <mat-form-field appearance="fill">
                         <mat-label>Address line 2</mat-label>
                         <textarea matInput placeholder="address line" rows="2" formControlName="addresslinetwo">&nbsp;
-                             </textarea>
+                        </textarea>
                     </mat-form-field>&nbsp;
 
                     <button mat-raised-button color="primary" (click)="addAddress(i)"><i class="fa fa-plus"
@@ -112,11 +96,15 @@
                     </mat-form-field><br>
 
                 </div>
+           
             </div>
-            <!-- </fieldset><br> -->
+
             <button type="submit" mat-raised-button color="accent" (click)="onSubmit()"> Register</button>&nbsp;
-            <button mat-raised-button color="accent" (click)=" loginForm()"> Login Here</button>&nbsp;
+
+            <button mat-raised-button color="primary" (click)=" loginForm()"> Login Here</button>&nbsp;
 
         </form>
     </div>
 </div>
+
+{{value}}

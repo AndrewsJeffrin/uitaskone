@@ -12,16 +12,17 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponentComponent implements OnInit {
   
-
+ a:any=[];
+ 
   public registerUser: FormGroup = new FormGroup({
-    firstname: new FormControl(''),
-    emailid: new FormControl('',[Validators.required,Validators.email]),
+    firstname: new FormControl('',[Validators.required]),
+    emailid: new FormControl(''),
     password: new FormControl(''),
     mobilenumber: new FormControl(''),
     mobile: new FormControl(''),
     addresslist: new FormArray([])
   });
-  //public name!:any;
+ 
   constructor(private fb: FormBuilder,private router: Router) {
 
   }
@@ -29,82 +30,96 @@ export class RegisterComponentComponent implements OnInit {
   getErrorMessage() {
     if (this.emailid.hasError('required')) {
       return 'You must enter a value';
-    }else{
-    return this.emailid.hasError('email') ? 'Not a valid email' : '';
     }
+    return this.emailid.hasError('email') ? 'Not a valid email' : '';
+    
   }
+  pwdPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
+  mobnumPattern = "^[0-9]*$"; 
   ngOnInit(): void {
     this.registerUser = this.fb.group({
-      firstname: ['',[Validators.required]],
-      emailid: [''],
-      password: ['',[Validators.required,Validators.pattern('(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')]],
+      firstname: ['',Validators.compose([Validators.required])],
+      emailid: ['',[Validators.required,Validators.email]],
+      password: ['',[Validators.required,Validators.pattern(this.pwdPattern)]],
       mobilenumber: ['',[Validators.required]],
-      mobile: [''],
+      mobile: ['',[Validators.required,Validators.pattern(this.mobnumPattern)]],
       addresslist: this.fb.array([this.getAddress()])
       
     })
-  }
+  } 
   getAddress(): FormGroup {
     return this.fb.group({
-      addresslineone: [''],
-      addresslinetwo:[''],
-      country: [''],
-      state: [''],
-      district: ['']
+      addresslineone: ['',[Validators.required]],
+      addresslinetwo:['',[Validators.required]],
+      country: ['',[Validators.required]],
+      state: ['',[Validators.required]],
+      district: ['',[Validators.required]]
     })
   }
- 
+
   onSubmit() {   
-    // localStorage.setItem('userdetails',this.registerUser.value)
-    // localStorage.setItem('email',this.registerUser.controls.emailid.value);
-    // localStorage.setItem('password',this.registerUser.controls.password.value);
-    // localStorage.setItem('firstname',this.registerUser.controls.firstname.value);
-    // localStorage.setItem('mobilenumber',this.registerUser.controls.mobilenumber.value);
-    // localStorage.setItem('mobile',this.registerUser.controls.mobile.value);
-    // localStorage.setItem('addressone',this.registerUser.controls.addresslineone.value)
-    // localStorage.setItem('addresstwo',this.registerUser.controls.addresslinetwo.value)
-    // localStorage.setItem('country',this.registerUser.controls.country.value)
-    // localStorage.setItem('state',this.registerUser.controls.state.value)
-    // localStorage.setItem('district',this.registerUser.controls.district.value)
-    
-    console.log(localStorage.setItem('userdetails',JSON.stringify(this.registerUser.value)));
-    console.log(this.registerUser.value)
-    //console.log(localStorage.getItem('country'));
+    var receiveddata =(this.registerUser.value);
+    this.a.push( receiveddata);
+    localStorage.setItem('uservalue',JSON.stringify( this.a));
+    console.log("value is",JSON.parse(localStorage.getItem('uservalue') || '[]'));
+    // localStorage.setItem('uservalue',JSON.stringify( receiveddata));
+    // console.log()
   }
-  // getControls() {
-  //   console.log((this.registerUser.controls.addresslist as FormArray).controls);
-  //   let a=(this.registerUser.controls.addresslist as FormArray)
-  //   console.log(a)
-  //   let b=(this.registerUser.controls.addresslist as FormArray).controls
-  //   return (this.registerUser.controls.addresslist as FormArray).controls;
-  //   //return this.registerUser.get('')
-  // }
+
   get addressGroups() {
-  
-    //console.log(this.registerUser.get('addresslist') as FormArray);
     return this.registerUser.get('addresslist') as FormArray;
   }
 
-
-  // this.addresslist = this.registerUser.get('addresslist')as FormArray;
   addAddress(index: number) {
     let  addresslist = this.registerUser.controls.addresslist  as FormArray;
     addresslist.push(this.getAddress());
   }
+
   onDelete(index: number):void{
     let  addresslist = this.registerUser.controls.addresslist  as FormArray;
     addresslist.removeAt(index)
   }
+  
   loginForm(){
-
     this.router.navigate(['login']);
   }
-  // public hasError = (controlName: string, errorName: string) => {
-  //   return this.registerUser.controls[this.registerUser.controls.emailid.value].hasError(errorName);
+ 
+  value:number=1;
+  // changeTheme(): any{
+  //   if(this.value===4){
+  //     this.value=4;
+  //   }else if(this.value==2){
+  //     this.value=2
+  //   }else if(this.value==3){
+  //     this.value=3
+  //   }else{
+  //     this.value==this.value
+  //   }
+
   // }
-//   isChange=false;
-//   onChange($event: MatSlideToggleChange) {
-//     //this.isChange=true;
-//     console.log($event);
-// }
+  themeOne(){
+    this.value=1
+  }
+  themeTwo(){
+    this.value=2
+  }
+  themeThree(){
+    this.value=3
+  }
+  themeFour(){
+    this.value=4
+  }
+  toggleValue = new FormControl();
+  // onChange(){
+
+  //   if(this.checked===true){
+  //     this.checked=false
+  //   }else{
+  //     this.checked=true
+  //   }
+  //   console.log(this.checked)
+  // }
+  onChange(){
+    console.log(this.toggleValue .value)
+  }
 }
